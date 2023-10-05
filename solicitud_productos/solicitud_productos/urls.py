@@ -14,18 +14,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from empleado.views import EmpleadoListView, EmpleadoDetailView
+from empleado.views import EmpleadoListView, EmpleadoDetailView, crear_ejecutivo_view, eliminar_productos_ejecutivo_view
 from categoria.views import CategoriaListView, CategoriaDetailView
 from producto.views import ProductoListView, ProductoDetailView
 from solicitud.views import SolicitudListView, SolicitudDetailView
 from django.contrib import admin
+from django.urls import path
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     
     # URLs para Empleado
-    path('empleados/', EmpleadoListView.as_view(), name='empleado-list'),
+    path('empleados/', EmpleadoListView.as_view(), name='empleados-list'),
     path('empleados/<int:pk>/', EmpleadoDetailView.as_view(), name='empleado-detail'),
+    path('empleados/crear-ejecutivo/', crear_ejecutivo_view, name='crear-ejecutivo'),
+    path('empleados/<int:ejecutivo_id>/eliminar_productos/', eliminar_productos_ejecutivo_view, name='eliminar-productos-ejecutivo'),
 
     # URLs para Categoria
     path('categorias/', CategoriaListView.as_view(), name='categoria-list'),
@@ -39,5 +43,9 @@ urlpatterns = [
     path('solicitudes/', SolicitudListView.as_view(), name='solicitud-list'),
     path('solicitudes/<int:pk>/', SolicitudDetailView.as_view(), name='solicitud-detail'),
     
-    # ... puedes agregar más URLs si lo necesitas
+    #url para los token
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    
+    
 ]
