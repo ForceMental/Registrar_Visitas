@@ -13,39 +13,32 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
-from empleado.views import EmpleadoListView, EmpleadoDetailView, crear_ejecutivo_view, eliminar_productos_ejecutivo_view
-from categoria.views import CategoriaListView, CategoriaDetailView
-from producto.views import ProductoListView, ProductoDetailView
-from solicitud.views import SolicitudListView, SolicitudDetailView
+from django.urls import path, re_path, include
 from django.contrib import admin
 from django.urls import path
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Tu API",
+        default_version='v1',
+        description="Descripción de tu API",
+        terms_of_service="https://www.tu-tos.com/",
+        contact=openapi.Contact(email="contacto@tudominio.com"),
+        license=openapi.License(name="Tu Licencia"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
-    # URLs para Empleado
-    path('empleados/', EmpleadoListView.as_view(), name='empleados-list'),
-    path('empleados/<int:pk>/', EmpleadoDetailView.as_view(), name='empleado-detail'),
-    path('empleados/crear-ejecutivo/', crear_ejecutivo_view, name='crear-ejecutivo'),
-    path('empleados/<int:ejecutivo_id>/eliminar_productos/', eliminar_productos_ejecutivo_view, name='eliminar-productos-ejecutivo'),
-
-    # URLs para Categoria
-    path('categorias/', CategoriaListView.as_view(), name='categoria-list'),
-    path('categorias/<int:pk>/', CategoriaDetailView.as_view(), name='categoria-detail'),
-
-    # URLs para Producto
-    path('productos/', ProductoListView.as_view(), name='producto-list'),
-    path('productos/<int:pk>/', ProductoDetailView.as_view(), name='producto-detail'),
-
-    # URLs para Solicitud
-    path('solicitudes/', SolicitudListView.as_view(), name='solicitud-list'),
-    path('solicitudes/<int:pk>/', SolicitudDetailView.as_view(), name='solicitud-detail'),
-    
-    #url para los token
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    
+    path('api/', include('solicitud.urls')),
+    path('api/', include('producto.urls')),
+    path('api/', include('categoria.urls')),
+    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     
 ]

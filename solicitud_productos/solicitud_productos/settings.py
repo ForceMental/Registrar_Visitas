@@ -25,7 +25,7 @@ SECRET_KEY = 'hl^2ei@=#4%7h+=zxywj3io3)_g#4q3owx!a+$ia5)$7+rd#-)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,38 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'empleado',
     'solicitud',
     'categoria',
     'producto',
     'rest_framework',
-    'rest_framework.authtoken',
+    'drf_yasg',
+    'corsheaders',
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-}
-
-SIMPLE_JWT = {
-    'ROTATE_REFRESH_TOKENS': False,
-    'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY,
-    'VERIFYING_KEY': None,
-    'AUTH_HEADER_TYPES': ('Bearer',),
-    'USER_ID_FIELD': 'id',
-    'USER_ID_CLAIM': 'user_id',
-    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
-    'TOKEN_TYPE_CLAIM': 'token_type',
-}
-
-
-from datetime import timedelta
-JWT_AUTH = {
-    'JWT_ALLOW_REFRESH': True,
-    'JWT_EXPIRATION_DELTA': timedelta(hours=1),
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -107,12 +83,11 @@ WSGI_APPLICATION = 'solicitud_productos.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ForceMentaldbs',
-        'USER': 'root',
-        'PASSWORD': 'Bjj2325fmDios..M',
-        'HOST': '127.0.0.1',
+        'NAME': 'usuario',
+        'USER': 'proyecto',
+        'PASSWORD': '123456',
+        'HOST': '34.199.25.249',
         'PORT': '3306',
-        'OPTION': "SET sql_mode='STRICT_TRANS_TABLES'"
     }
 }
 
@@ -156,4 +131,3 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = 'empleado.Empleado'
