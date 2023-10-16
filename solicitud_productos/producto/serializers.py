@@ -1,12 +1,11 @@
 from rest_framework import serializers
+
+from categoria.models import Categoria
 from .models import Producto
-from solicitud.serializers import SolicitudSerializer
 from categoria.serializers import CategoriaSerializer
 
 class ProductoSerializer(serializers.ModelSerializer):
-    solicitud = SolicitudSerializer(read_only=True)
-    categoria = CategoriaSerializer(read_only=True)
-    
+    #categoria = serializers.PrimaryKeyRelatedField(source='producto.categoria.nombre_categoria', queryset=Categoria.objects.all(), required=True)
     class Meta:
         model = Producto
-        fields = ['id_producto', 'stock_producto', 'nombre_producto', 'solicitud', 'categoria']
+        fields = ['id_producto', 'stock_producto', 'nombre_producto', 'categoria']

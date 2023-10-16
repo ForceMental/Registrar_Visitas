@@ -37,13 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'solicitud',
     'categoria',
     'producto',
     'rest_framework',
     'drf_yasg',
     'corsheaders',
-    'stock_disponible_producto',
 ]
 
 
